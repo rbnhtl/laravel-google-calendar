@@ -211,6 +211,15 @@ class Event
         return $this->save('updateEvent', $optParams);
     }
 
+    public function move($destinationCalendarId, $optParams = []): self
+    {
+        $googleCalendar = $this->getGoogleCalendar($this->calendarId);
+
+        $googleEvent = $googleCalendar->moveEvent($this, $googleCalendar->getCalendarId(), $destinationCalendarId, $optParams);
+
+        return static::createFromGoogleCalendarEvent($googleEvent, $googleCalendar->getCalendarId());
+    }
+
     public function delete(string $eventId = null, $optParams = [])
     {
         $this->getGoogleCalendar($this->calendarId)->deleteEvent($eventId ?? $this->id, $optParams);

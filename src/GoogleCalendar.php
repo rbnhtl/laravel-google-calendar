@@ -92,6 +92,18 @@ class GoogleCalendar
         return $this->calendarService->events->update($this->calendarId, $event->id, $event, $optParams);
     }
 
+    /*
+     * @link https://developers.google.com/calendar/api/v3/reference/events/move
+     */
+    public function moveEvent($event, $originalCalendarId, $destinationCalendarId, $optParams = []): Google_Service_Calendar_Event
+    {
+        if ($event instanceof Event) {
+            $event = $event->googleEvent;
+        }
+
+        return $this->calendarService->events->move($originalCalendarId, $event->id, $destinationCalendarId, $optParams);
+    }
+
     public function deleteEvent($eventId, $optParams = [])
     {
         if ($eventId instanceof Event) {
